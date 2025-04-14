@@ -1,0 +1,63 @@
+services:
+  frontend:
+    build:
+      context: ./sherpa-ui
+      dockerfile: Dockerfile
+    container_name: sherpa-frontend
+    env_file:
+      - ./sherpa-ui/.env.production
+    ports:
+      - "3000:80"
+    depends_on:
+      - fastapi
+    networks:
+      - sherpa-net
+    restart: unless-stopped
+
+  fastapi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sherpa-api
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    depends_on:
+      - mongo
+      - chroma
+    networks:
+      - sherpa-net
+    restart: unless-stopped
+
+  mongo:
+    image: mongo:6.0
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - sherpa-net
+    restart: unless-stopped
+
+  chroma:
+    image: ghcr.io/chroma-core/chroma:0.4.14
+    container_name: chroma
+    ports:
+      - "8001:8000"
+    volumes:
+      - chroma_data:/chroma
+    networks:
+      - sherpa-net
+    restart: unless-stopped
+
+volumes:
+  mongo_data:
+  chroma_data:
+
+networks:
+  sherpa-net:
+    driver: bridge

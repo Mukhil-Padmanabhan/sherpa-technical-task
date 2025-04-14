@@ -2,7 +2,7 @@
 import os  
 from openai import AzureOpenAI  
 
-endpoint = os.getenv("ENDPOINT_URL", "https://openai-charter.openai.azure.com/")  
+endpoint = os.getenv("AZURE_OPENAI_ENDPOINT", "https://openai-charter.openai.azure.com/")  
 # deployment = os.getenv("DEPLOYMENT_NAME", "gpt-4o-technical-task")  
 deployment = os.getenv("EMBEDDINGS_DEPLOYMENT_NAME", "text-embedding-3-small")  
 subscription_key = os.getenv("AZURE_OPENAI_API_KEY")  

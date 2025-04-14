@@ -7,3 +7,5 @@ requires-python = ">=3.12"
 dependencies = [
     "openai>=1.60.2",
 ]
+reload = true
+reload-dir = ["app"]

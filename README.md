@@ -1,53 +1,109 @@
-## Context
+# Sherpa
 
-At Sherpa, we develop AI-enabled software applications for management consulting and professional services firms, frequently handling complex, unstructured data sources such as:
+An end-to-end AI-powered document search and summarization platform built with FastAPI, React, ChromaDB, and OpenAI embeddings.
 
-- Excel spreadsheets (Survey data, business plans, etc.)
-- PDF reports
-- PowerPoint slide decks
-- Word documents
+## Overview
 
-Our solutions must be multi-tenant, highly secure, and optimised for enterprise scalability and reliability.
+Sherpa is a multi-tenant AI-powered document search and summarization app tailored for consulting firms. It allows users to securely upload, summarize, and query business documents using LLMs and vector search across tenant-specific or global contexts.
 
-## 📌 Objective
+## Features
+**Backend**
+- **User Authentication**: JWT-based login and registration
+- **Document Summarization**: Generate summaries for uploaded documents
+- **RAG (Retrieval-Augmented Generation)**: Answer questions based on document content
+- **Embedding Caching**: Utilize ChromaDB to cache embeddings and avoid redundant computations
 
-You’ve been provided with a set of reports, articles and presentations on the topic of artificial intelligence, sourced from top-tier consulting firms (McKinsey, Bain and BCG). The documents include a mix of data — text, tables, charts, and diagrams. Your task is to build a prototype application, within 48 hours, that allows users to explore, synthesise and interrogate the content of these reports using AI-powered techniques.
+**Frontend**
+- **Search Interface**: Input questions and display answers with sources
+- **Document List**: View and summarize uploaded documents
+- **Authentication**: Login and registration forms
+- **Role-Based Access**: Adjust tenant selection based on user role
 
-- Python is preferred, but we welcome other languages if they’re your strength. Feel free to use any packages you wish
-- Likewise, we can provide you with AzureOpenAI credentials, but you are also welcome to use an LLM of your choice.
 
-The initial repository and dataset can be found in the below repo, which you create a fork of.
+## Tech Stack
+- FastAPI (Python)
+- MongoDB (via Motor)
+- JWT Authentication
+- ChromaDB
+- Azure OpenAI or Hugging Face
+- Pydantic
+- DuckDuckGo Search API (fallback)
+- React/Vite
 
-https://github.com/Charter-AI/sherpa-technical-task
+### DevOps
+- Docker & Docker Compose for containerization
+- MongoDB for data persistence
 
-> **Note:** We do not expect a fully-featured, enterprise grade solution. We’re evaluating your approach to problem-solving, handling ambiguity, and creating robust foundations. The task is intentionally open-ended to allow you to also show off your skills. You can choose which step of the process you’d like to focus on, based on your strengths and interests.
-> 
+## Getting Started
 
-## Deliverables
+### Prerequisites
+- Docker and Docker Compose (for containerized deployment)
 
-### Must-Haves
+### Clone repo
+```
+git clone https://github.com/Charter-AI/sherpa-technical-task.git
+cd sherpa-technical-task
+```
 
-- A working codebase / repository that offers the user some ability to interact with the data. This can be as simple as the command line if you want to focus more heavily on the backend logic, but it could also be a fancy, deployed, UI if you want to show off your end-to-end development skills.
-    - Please invite the following user to your repository: https://github.com/OLT2000
-- README file documenting your thought process and set up instructions
+### Running the application
 
-### Nice-to-Haves
+1. **Using Docker Compose**
+   ```
+   docker compose up --build
+   ```
+   
+   This will build and start the MongoDB database, FastAPI, ChromaDB and frontend container.
 
-Aside from the basic chatbot set-up, we also place positive weightings on submissions that focus on some of the below concepts, as these are challenges that you will face on the job.
+2. **Access the application**
+   - Frontend: http://localhost:3000
+   - Backend API: http://localhost:8000
+   - API Documentation: http://localhost:8000/docs
 
-1. **Complex Data Parsing**
-    1. Are you able to utilise all of the data contained in the reports (i.e. including the tables, charts and images which contain valuable information)?
-    2. Typical consulting powerpoint decks contain content which does not follow a linear, logical flow like a Word document. Diagrams such as flow-charts use structure to add hierarchy to text.
-2. **Authentication / RBAC**
-    1. You may want to consider simulating user authentication, data siloes or user permissioning / access rights.
-    2. Consulting data is often extremely confidential. Accidentally leaking data between companies, or even internal teams, could be detrimental to us — security must be paramount.
-3. **Scalable Output Testing**
-    1. What frameworks did you use to evaluate the quality of your model choices or prompts?
-    2. As we explore different solutions to our data problems, we need a way to reliably compare model performance.
-4. **Model output validation**
-    1. How are you checking for hallucinations and response structures?
-5. **Agentic Integration with APIs**
-    1. Users may want to perform common desk research about an industry or company that may not be available in the existing datasets
-6. **Scalability**
-    1. Have you addressed the problem of scalability?
-    2. Is your application set up to handle large volumes of concurrent requests? How are you ensuring systems experience no downtime
+## API Documentation
+
+Access the automatically generated API docs at:
+Swagger UI: http://localhost:8000/docs
+ReDoc: http://localhost:8000/redoc
+
+### Main Endpoints
+
+- **Authentication**
+  - POST `/api/auth/register` - Register a new user
+  - POST `/api/auth/login` - Login a user
+
+- **Summarization**
+  - GET `/api/summary/list` - Get all documents
+  - GET `/api/summary/{doc_id}` - Get document summary
+
+- **RAG**
+  - POST `/api/rag/ask` - rag ask
+  - POST `/api/rag/doc-search` - Search within document
+
+- **Default**
+    - GET `/` - Health check
+
+## Future Improvements
+- Refresh Tokens with Rotation & Revocation Lists
+- Multi-Factor Authentication (MFA)
+- IP Whitelisting
+- Per-Chunk Embedding Versioning & Expiry
+- Chunk Metadata Tagging
+- RAG Pipelines with LangGraph
+- Hallucination Grading & Filtering
+- Feedback Loop Storage
+- Multiple Model Support
+- Multilingual Support 
+- Prometheus + Grafana Dashboards
+- Centralized Logging (ELK or Loki)
+- Retry Queues for Indexing Failures
+- Redis Caching
+- Unit + Integration Tests
+- End-to-End Testing with Cypress
+- Chat History & Prompt Management
+
+## License
+
+MIT
+
+## Author
+Mukhil Padmanabhan
