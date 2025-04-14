@@ -18,9 +18,12 @@ function Search() {
     setSources([])
 
     try {
+      let token = localStorage.getItem('token')
+      const payload = token.split(".")[1];
+      const decoded = JSON.parse(atob(payload));
       const res = await axios.post(
         `${API_URL}/api/rag/ask`,
-        { question, tenant: "Bain" },
+        { question, tenant: decoded?.tenant },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
